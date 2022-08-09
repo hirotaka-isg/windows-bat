@@ -1,81 +1,80 @@
 @echo off
+rem ========================================================
+rem ç›®çš„ï¼šæ‹ ç‚¹ã«åˆã‚ã›ã¦ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã®è¨­å®šã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
+rem ä½œæˆæ—¥ï¼š2022/07/30
+rem ç®¡ç†è€…ã§å®Ÿè¡Œã—ã¦ä¸‹ã•ã„
+rem +ã§å›²ã‚ã‚ŒãŸç¯„å›²ã¯è‡ªèº«ã®ç’°å¢ƒã«åˆã‚ã›ã¦è¨­å®šã—ã¦ä¸‹ã•ã„
+rem ========================================================
 
-rem –Ú“IF‹’“_‚É‡‚í‚¹‚Äƒlƒbƒgƒ[ƒN‚Ìİ’è‚ğØ‚è‘Ö‚¦‚é
-rem ì¬“úF2022/07/30
-rem ŠÇ—Ò‚ÅÀs‚µ‚Ä‰º‚³‚¢
+rem +++++++++++++++++++++++++++++++++++++++++++++++
+rem æ‹ ç‚¹ï¼‘ã®è¨­å®š
+set location01_interface_name="Wi-Fi"
+set location01_ip=XXX.XXX.XXX.XXX
+set location01_subnet=XXX.XXX.XXX.XXX
+set location01_default_gateway=XXX.XXX.XXX.XXX
+set location01_dns_server1=XXX.XXX.XXX.XXX
+set location01_dns_server2=XXX.XXX.XXX.XXX
 
-echo 10F‹’“_–¼‚P
-echo 20F‹’“_–¼‚Q
-echo 30F‹’“_–¼‚R
-echo ã‹L‚©‚ç‹’“_‚ğ”¼Šp”š‚Å“ü—Í‚µ‚Ä‚­‚¾‚³‚¢
+rem æ‹ ç‚¹ï¼’ã®è¨­å®š
+set location02_interface_name="Wi-Fi"
+set location02_ip=XXX.XXX.XXX.XXX
+set location02_subnet=XXX.XXX.XXX.XXX
+set location02_default_gateway=XXX.XXX.XXX.XXX
+set location02_dns_server1=XXX.XXX.XXX.XXX
+set location02_dns_server2=XXX.XXX.XXX.XXX
+
+rem æ‹ ç‚¹ï¼“ã®è¨­å®š  â€»DHCPãªã®ã§ã€ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹åã®ã¿
+set location03_interface_name="Wi-Fi"
+rem +++++++++++++++++++++++++++++++++++++++++++++++
+
+echo 10ï¼šæ‹ ç‚¹åï¼‘
+echo 20ï¼šæ‹ ç‚¹åï¼’
+echo 30ï¼šæ‹ ç‚¹åï¼“
+echo ä¸Šè¨˜ã‹ã‚‰æ‹ ç‚¹ã‚’åŠè§’æ•°å­—ã§å…¥åŠ›ã—ã¦ãã ã•ã„
 set /p location=
 
-rem ŠeƒƒP[ƒVƒ‡ƒ“‚É‡‚í‚¹‚Ä•ªŠò
+rem å„ãƒ­ã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã«åˆã‚ã›ã¦åˆ†å²
 IF %location%==10 goto location_10
 IF %location%==20 goto location_20
 IF %location%==30 goto location_30
 
 :location_10
-echo ‹’“_‚P
-echo İ’èî•ñ
-set interface_name="Wi-Fi"
-set ip_address=XXX.XXX.XXX.XXX
-set subnet_mask=XXX.XXX.XXX.XXX
-set default_gateway=XXX.XXX.XXX.XXX
+echo æ‹ ç‚¹ï¼‘
+rem IPã®è¨­å®š
+netsh interface ip set address %location01_interface_name% static %location01_ip% %location01_subnet% %location01_default_gateway%
 
-rem DNSƒT[ƒo[î•ñ
-set dns_server1=XXX.XXX.XXX.XXX
-set dns_server2=XXX.XXX.XXX.XXX
+rem DNSã‚µãƒ¼ãƒã®è¨­å®š
+netsh interface ipv4 set dns name="%location01_interface_name%" source=static addr="%location01_dns_server1%" register=non validate=no
+netsh interface ipv4 add dns name="%location01_interface_name%" addr="%location02_dns_server2%" index=2 validate=no
+ipconfig
 
-echo interface_name="Wi-Fi"
-echo ip_address=XXX.XXX.XXX.XXX
-echo subnet_mask=XXX.XXX.XXX.XXX
-echo default_gateway=XXX.XXX.XXX.XXX
-echo dns_server1=XXX.XXX.XXX.XXX
-echo dns_server2=XXX.XXX.XXX.XXX
-
-netsh interface ip set address %interface_name% static %ip_address% %subnet_mask% %default_gateway%
-
-rem DNSƒT[ƒo‚Ìİ’è
-netsh interface ipv4 set dns name="%interface_name%" source=static addr="%dns_server1%" register=non validate=no
-netsh interface ipv4 add dns name="%interface_name%" addr="%dns_server2%" index=2 validate=no
 pause
 goto :EOF
 
 :location_20
-echo ‹’“_‚Q
-echo İ’èî•ñ
-set interface_name="Wi-Fi"
-set ip_address=XXX.XXX.XXX.XXX
-set subnet_mask=XXX.XXX.XXX.XXX
-set default_gateway=XXX.XXX.XXX.XXX
+echo æ‹ ç‚¹ï¼’
+ã€€
+netsh interface ip set address %location02_interface_name% static %location02_ip% %location02_subnet% %location02_default_gateway%
 
-rem DNSƒT[ƒo[î•ñ
-set dns_server1=XXX.XXX.XXX.XXX
-set dns_server2=XXX.XXX.XXX.XXX
+rem DNSã‚µãƒ¼ãƒã®è¨­å®š
+netsh interface ipv4 set dns name="%location02_interface_name%" source=static addr="%location02_dns_server1%" register=non validate=no
+netsh interface ipv4 add dns name="%location02_interface_name%" addr="%location02_dns_server2%" index=2 validate=no
 
-echo interface_name="Wi-Fi"
-echo ip_address=XXX.XXX.XXX.XXX
-echo subnet_mask=XXX.XXX.XXX.XXX
-echo default_gateway=XXX.XXX.XXX.XXX
-echo dns_server1=XXX.XXX.XXX.XXX
-echo dns_server2=XXX.XXX.XXX.XXX
-
-netsh interface ip set address %interface_name% static %ip_address% %subnet_mask% %default_gateway%
-
-rem DNSƒT[ƒo‚Ìİ’è
-netsh interface ipv4 set dns name="%interface_name%" source=static addr="%dns_server1%" register=non validate=no
-netsh interface ipv4 add dns name="%interface_name%" addr="%dns_server2%" index=2 validate=no
+rem è¨­å®šå¾Œã®ç¢ºèª
+ipconfig
 
 pause
 goto :EOF
 
 :location_30
-echo ‹’“_‚RiDHCPj
-set interface_name="Wi-Fi"
-rem DHCP‚Éİ’è
-netsh interface ipv4 set address name=%interface_name% source=dhcp
-netsh interface ipv4 set dnsservers name=%interface_name% source=dhcp
+echo æ‹ ç‚¹ï¼“ï¼ˆDHCPï¼‰
+
+rem DHCPã«è¨­å®š
+netsh interface ipv4 set address name=%location03_interface_name% source=dhcp
+netsh interface ipv4 set dnsservers name=%location03_interface_name% source=dhcp
+
+rem è¨­å®šå¾Œã®ç¢ºèª
+ipconfig
+
 pause
 goto :EOF
-
